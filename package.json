@@ -4,6 +4,7 @@
   "description": "Hermès bag tracker",
   "main": "server.js",
   "scripts": {
+    "build": "cp -r public/* .",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },

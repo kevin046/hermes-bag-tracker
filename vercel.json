@@ -1,10 +1,14 @@
 {
   "version": 2,
   "builds": [
+    { "src": "public/**/*", "use": "@vercel/static" },
     { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/scrape", "dest": "/api/scrape" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
+    { "src": "/(.*)", "dest": "/public/$1" }
+  ],
+  "public": true,
+  "cleanUrls": true,
+  "trailingSlash": false
 } 
