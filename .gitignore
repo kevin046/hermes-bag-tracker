@@ -2,6 +2,12 @@
 node_modules/
 package-lock.json
 
+# Next.js
+.next/
+out/
+build/
+dist/
+
 # Environment variables
 .env
 .env.local
@@ -26,18 +32,10 @@ Thumbs.db
 .tmp
 .temp
 
-# Build output
-dist/
-build/
-.next/
-out/
-
 # Cache directories
 .cache/
 .npm/
-
-# Coverage directory
-coverage/
+.vercel
 
 # Misc
 *.swp

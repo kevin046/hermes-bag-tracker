@@ -1,32 +1,33 @@
 {
   "name": "hermes-tracker",
   "version": "1.0.0",
-  "description": "Hermès bag tracker",
-  "main": "server.js",
+  "private": true,
   "scripts": {
-    "build": "cp -r public/* .",
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "vercel-build": "echo 'Building...'"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.46.2",
+    "@vercel/node": "^2.15.1",
+    "asynckit": "^0.4.0",
     "axios": "^1.5.0",
+    "combined-stream": "^1.0.8",
+    "delayed-stream": "^1.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.21.1",
+    "follow-redirects": "^1.15.2",
+    "form-data": "^4.0.0",
+    "mime-db": "^1.52.0",
+    "mime-types": "^2.1.35",
+    "next": "^15.0.3",
     "node-cron": "^3.0.3",
     "node-notifier": "^10.0.1",
     "nodemailer": "^6.9.16",
-    "@vercel/node": "^2.15.1",
-    "scrappey-wrapper": "^1.0.8",
-    "form-data": "^4.0.0",
-    "follow-redirects": "^1.15.2",
     "proxy-from-env": "^1.1.0",
-    "asynckit": "^0.4.0",
-    "combined-stream": "^1.0.8",
-    "delayed-stream": "^1.0.0",
-    "mime-types": "^2.1.35",
-    "mime-db": "^1.52.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "scrappey-wrapper": "^1.0.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
