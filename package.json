@@ -9,19 +9,22 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.46.2",
-    "axios": "^1.7.8",
+    "axios": "^1.5.0",
     "dotenv": "^10.0.0",
     "express": "^4.21.1",
     "node-cron": "^3.0.3",
     "node-notifier": "^10.0.1",
     "nodemailer": "^6.9.16",
-    "puppeteer": "^23.10.0",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "user-agents": "^1.1.377",
     "@vercel/node": "^2.15.1",
-    "puppeteer-core": "^19.7.0",
-    "chrome-aws-lambda": "^10.1.0"
+    "scrappey-wrapper": "^1.0.8",
+    "form-data": "^4.0.0",
+    "follow-redirects": "^1.15.2",
+    "proxy-from-env": "^1.1.0",
+    "asynckit": "^0.4.0",
+    "combined-stream": "^1.0.8",
+    "delayed-stream": "^1.0.0",
+    "mime-types": "^2.1.35",
+    "mime-db": "^1.52.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
