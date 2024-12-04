@@ -107,6 +107,37 @@ app.get('/api/price-history/:sku', async (req, res) => {
     }
 });
 
+app.post('/api/scrape', async (req, res) => {
+    try {
+        const { basesku, variant, model, url } = req.body;
+        
+        // Use the actual scraper to get real data
+        const bagData = await hermesScraper.scrapeBagData(basesku, variant);
+        
+        if (!bagData) {
+            return res.status(404).json({
+                success: false,
+                message: 'No data found for this variant'
+            });
+        }
+
+        res.json({
+            success: true,
+            bagData: {
+                ...bagData,
+                reference: `${basesku}${variant}`
+            }
+        });
+
+    } catch (error) {
+        console.error('Scraping error:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

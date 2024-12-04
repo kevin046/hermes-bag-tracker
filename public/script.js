@@ -134,13 +134,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (startScrapingBtn) {
         startScrapingBtn.addEventListener('click', async (e) => {
             e.preventDefault();
-            console.log('Start Scraping clicked');
             
             const selectedBags = Array.from(bagCheckboxes)
                 .filter(checkbox => checkbox.checked)
                 .map(checkbox => checkbox.value);
-
-            console.log('Selected bags:', selectedBags);
 
             if (selectedBags.length === 0) {
                 alert('Please select at least one bag to track');
@@ -154,7 +151,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 scrapingStatus.className = 'status-text scraping';
                 scrapingStatus.textContent = 'Tracking in progress...';
 
-                // Track each selected bag
                 for (const bagModel of selectedBags) {
                     scrapingStatus.textContent = `Tracking ${bagModel}...`;
                     
@@ -164,22 +160,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                             throw new Error(`Configuration not found for ${bagModel}`);
                         }
 
-                        const mockData = {
-                            name: `${bagModel} Bag`,
-                            reference: bagInfo.sku,
-                            model_line: bagInfo.model_line,
-                            size: bagInfo.size,
-                            price: Math.floor(Math.random() * 10000) + 5000,
-                            color: ['Black', 'Gold', 'Etoupe', 'Rouge H'][Math.floor(Math.random() * 4)],
-                            material: ['Clemence', 'Epsom', 'Togo', 'Swift'][Math.floor(Math.random() * 4)],
-                            availability: Math.random() > 0.5,
-                            url: bagInfo.url,
-                            description: `Hermès ${bagModel} bag`,
-                            last_checked: new Date().toISOString()
-                        };
+                        // Get data for all variants using the browser-compatible scraper
+                        const variantResults = await hermesScraper.getAllVariants(bagModel, bagInfo);
+                        
+                        for (const variantData of variantResults) {
+                            await storeScrapedData(variantData, bagModel);
+                            displayResult({
+                                ...variantData,
+                                bagName: `${bagModel} (${variantData.variant})`
+                            });
+                        }
 
-                        await storeScrapedData(mockData, bagModel);
-                        displayResult({ ...mockData, bagName: bagModel });
                         await new Promise(resolve => setTimeout(resolve, 2000));
 
                     } catch (error) {
