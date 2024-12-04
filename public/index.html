@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermès Bag Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Hermès Bag Tracker</h1>
+        
+        <div class="bag-selection-panel">
+            <h2>Select Bags to Track</h2>
+            <div class="bag-checkboxes">
+                <div class="bag-group">
+                    <h3>Picotin</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="picotin18">
+                        Picotin Lock 18
+                    </label>
+                    <label>
+                        <input type="checkbox" name="bag" value="picotin22">
+                        Picotin Lock 22
+                    </label>
+                </div>
+                <div class="bag-group">
+                    <h3>Herbag</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="herbagZip31">
+                        Herbag Zip 31
+                    </label>
+                    <label>
+                        <input type="checkbox" name="bag" value="herbagZip39">
+                        Herbag Zip 39
+                    </label>
+                </div>
+                <div class="bag-group">
+                    <h3>Evelyne</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="evelyne29">
+                        Evelyne III 29
+                    </label>
+                </div>
+                <div class="bag-group">
+                    <h3>Lindy</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="lindyMini">
+                        Lindy II Mini
+                    </label>
+                    <label>
+                        <input type="checkbox" name="bag" value="lindy26">
+                        Lindy 26
+                    </label>
+                </div>
+            </div>
+            <div class="control-buttons">
+                <button id="selectAllBtn" class="secondary-button">Select All</button>
+                <button id="clearAllBtn" class="secondary-button">Clear All</button>
+                <button id="startScrapingBtn" class="action-button">Track Selected Bags</button>
+            </div>
+            <div id="scrapingStatus" class="status-text"></div>
+        </div>
+
+        <div id="error" class="error"></div>
+        <div id="result" class="result"></div>
+
+        <div id="bagHistory" class="history">
+            <h2>Tracking History</h2>
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>Bag Model</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Color</th>
+                        <th>Availability</th>
+                        <th>Last Checked</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://xhcqhzkwyhkwumbcgqwl.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoY3Foemt3eWhrd3VtYmNncXdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwMDA1NDIsImV4cCI6MjA0ODU3NjU0Mn0.plJDiAESxjXQe60gDG3ihaBsimqmo3hg_nr7SURWg7M';
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
