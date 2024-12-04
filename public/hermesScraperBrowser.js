@@ -4,7 +4,7 @@ class HermesScraper {
             'CKI8', 'CKP5', 'CC7P', 'CK37', 'CCAA', 'CKAB',
             'CK65', 'CK09', 'CC65', 'CKP5', 'CCAK', 'CCBC'
         ];
-        this.apiUrl = '/api/scrape'; // Your backend API endpoint
+        this.apiUrl = '/api/scrape';
     }
 
     async getAllVariants(bagModel, bagInfo) {
