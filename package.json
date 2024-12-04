@@ -6,7 +6,8 @@
   "scripts": {
     "build": "cp -r public/* .",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "vercel-build": "echo 'Building...'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.46.2",
@@ -29,5 +30,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
