@@ -35,7 +35,10 @@ Thumbs.db
 # Cache directories
 .cache/
 .npm/
+
+# Vercel
 .vercel
+.vercel.json
 
 # Misc
 *.swp
