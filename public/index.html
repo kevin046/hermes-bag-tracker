@@ -11,6 +11,25 @@
     <div class="container">
         <h1>Hermès Bag Tracker</h1>
         
+        <div class="disclaimer-panel">
+            <h3>Terms & Conditions</h3>
+            <div class="disclaimer-content">
+                <p class="disclaimer-text">
+                    By using this tracker, you acknowledge and agree to the following:
+                </p>
+                <ul class="disclaimer-list">
+                    <li>This tool is for personal use only and is not affiliated with Hermès.</li>
+                    <li>Excessive use may result in your IP being blocked by Hermès website.</li>
+                    <li>We are not responsible for any restrictions or limitations imposed by Hermès.</li>
+                    <li>The availability and pricing information provided is not guaranteed.</li>
+                    <li>Use this service at your own risk.</li>
+                </ul>
+                <p class="disclaimer-note">
+                    This website is not liable for any misuse or consequences resulting from the use of this tracking service.
+                </p>
+            </div>
+        </div>
+
         <div class="bag-selection-panel">
             <h2>Select Bags to Track</h2>
             <div class="bag-checkboxes">
@@ -67,7 +86,12 @@
         <div id="result" class="result"></div>
 
         <div id="bagHistory" class="history">
-            <h2>Tracking History</h2>
+            <div class="history-header">
+                <h2>Tracking History</h2>
+                <button id="clearHistoryBtn" class="danger-button">
+                    Clear All History
+                </button>
+            </div>
             <table id="historyTable">
                 <thead>
                     <tr>
@@ -106,6 +130,13 @@
                 </table>
             </div>
         </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>Powered by <a href="https://www.summitpixels.com" target="_blank">SummitPixels</a></p>
+                <p class="copyright">© 2024 SummitPixels. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <script>

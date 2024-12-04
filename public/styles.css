@@ -13,11 +13,14 @@ body {
 
 .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto;
     background-color: white;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
@@ -316,4 +319,131 @@ a[target="_blank"]::after {
 
 .unsubscribe-button:hover {
     background-color: #c82333;
+}
+
+/* Footer Styles */
+.footer {
+    margin-top: 50px;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-content {
+    color: #666;
+    font-size: 14px;
+}
+
+.footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.copyright {
+    margin-top: 5px;
+    color: #888;
+    font-size: 12px;
+}
+
+/* Disclaimer Panel Styles */
+.disclaimer-panel {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.disclaimer-panel h3 {
+    color: #856404;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.disclaimer-content {
+    color: #856404;
+}
+
+.disclaimer-text {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.disclaimer-list {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.disclaimer-list li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.disclaimer-note {
+    font-style: italic;
+    margin-top: 15px;
+    font-size: 0.95em;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.danger-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.danger-button:hover {
+    background-color: #c82333;
+}
+
+.danger-button:disabled {
+    background-color: #e9a9af;
+    cursor: not-allowed;
+}
+
+.danger-button.loading {
+    position: relative;
+    color: transparent;
+}
+
+.danger-button.loading::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-right-color: transparent;
+    animation: button-loading-spinner 0.75s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
 } 

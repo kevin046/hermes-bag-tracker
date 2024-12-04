@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const subscribeButton = document.getElementById('subscribeButton');
     const subscriptionStatus = document.getElementById('subscriptionStatus');
     const subscriptionsBody = document.getElementById('subscriptionsBody');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
     // Debug log to check if elements are found
     console.log('Elements found:', {
@@ -93,7 +94,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .limit(10);
 
             if (error) throw error;
-            displayHistory(bags);
+
+            displayHistory(bags || []);
+            
+            // Update clear history button state
+            if (clearHistoryBtn) {
+                clearHistoryBtn.disabled = !bags || bags.length === 0;
+            }
+
         } catch (error) {
             console.error('Error loading history:', error);
             errorDiv.textContent = 'Failed to load tracking history';
@@ -477,5 +485,52 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error unsubscribing:', error);
             alert('Error unsubscribing: ' + error.message);
         }
+    }
+
+    // Update the clear history functionality
+    if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to delete all tracking history? This action cannot be undone.')) {
+                try {
+                    // Show loading state
+                    clearHistoryBtn.disabled = true;
+                    clearHistoryBtn.textContent = 'Clearing...';
+                    clearHistoryBtn.classList.add('loading');
+
+                    try {
+                        // Try using RPC first
+                        const { error } = await supabaseClient.rpc('clear_all_history');
+                        if (!error) {
+                            console.log('Successfully cleared history using RPC');
+                        } else {
+                            throw error;
+                        }
+                    } catch (rpcError) {
+                        console.log('RPC failed, falling back to manual deletion');
+                        
+                        // Manual deletion as fallback
+                        await supabaseClient.from('subscriptions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                        await supabaseClient.from('price_history').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                        await supabaseClient.from('stock_history').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                        await supabaseClient.from('bags').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                    }
+
+                    // Show success message
+                    alert('All tracking history has been cleared successfully.');
+                    
+                    // Refresh the history display
+                    await loadTrackingHistory();
+
+                } catch (error) {
+                    console.error('Error clearing history:', error);
+                    alert('Error clearing history: ' + error.message);
+                } finally {
+                    // Reset button state
+                    clearHistoryBtn.disabled = false;
+                    clearHistoryBtn.textContent = 'Clear All History';
+                    clearHistoryBtn.classList.remove('loading');
+                }
+            }
+        });
     }
 }); 
