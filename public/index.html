@@ -82,6 +82,30 @@
                 <tbody id="historyBody"></tbody>
             </table>
         </div>
+
+        <div class="subscription-panel">
+            <h3>Subscribe for Availability Notifications</h3>
+            <div class="subscription-form">
+                <input type="email" id="subscriptionEmail" placeholder="Enter your email" required>
+                <button id="subscribeButton" class="action-button">Subscribe to Selected Bags</button>
+            </div>
+            <div id="subscriptionStatus" class="status-text"></div>
+            
+            <div class="subscriptions-list">
+                <h4>Your Active Subscriptions</h4>
+                <table id="subscriptionsTable">
+                    <thead>
+                        <tr>
+                            <th>Bag Model</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subscriptionsBody"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script>

@@ -267,4 +267,53 @@ a[target="_blank"]::after {
     content: "↗";
     margin-left: 4px;
     font-size: 12px;
+}
+
+/* Subscription Panel Styles */
+.subscription-panel {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.subscription-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.subscription-form input[type="email"] {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.subscriptions-list {
+    margin-top: 20px;
+}
+
+.subscriptions-list h4 {
+    margin-bottom: 15px;
+}
+
+.subscription-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.unsubscribe-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.unsubscribe-button:hover {
+    background-color: #c82333;
 } 

@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const selectAllBtn = document.getElementById('selectAllBtn');
     const clearAllBtn = document.getElementById('clearAllBtn');
     const bagCheckboxes = document.querySelectorAll('input[name="bag"]');
+    const subscriptionEmail = document.getElementById('subscriptionEmail');
+    const subscribeButton = document.getElementById('subscribeButton');
+    const subscriptionStatus = document.getElementById('subscriptionStatus');
+    const subscriptionsBody = document.getElementById('subscriptionsBody');
 
     // Debug log to check if elements are found
     console.log('Elements found:', {
@@ -337,5 +341,141 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
             historyBody.appendChild(row);
         });
+    }
+
+    // Add subscription button handler
+    if (subscribeButton) {
+        subscribeButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = subscriptionEmail.value;
+            const selectedBags = Array.from(bagCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+
+            if (selectedBags.length === 0) {
+                alert('Please select at least one bag to subscribe to');
+                return;
+            }
+
+            try {
+                subscribeButton.disabled = true;
+                subscriptionStatus.textContent = 'Subscribing...';
+                subscriptionStatus.className = 'status-text scraping';
+
+                for (const bagModel of selectedBags) {
+                    const bagInfo = bagReferences[bagModel];
+                    
+                    // Get or create bag record
+                    const { data: bag, error: bagError } = await supabaseClient
+                        .from('bags')
+                        .select('id')
+                        .eq('sku', bagInfo.sku)
+                        .single();
+
+                    if (bagError) throw bagError;
+
+                    // Create subscription
+                    const { error: subError } = await supabaseClient
+                        .from('subscriptions')
+                        .insert({
+                            user_email: email,
+                            bag_id: bag.id,
+                            active: true
+                        });
+
+                    if (subError) throw subError;
+                }
+
+                subscriptionStatus.textContent = 'Successfully subscribed!';
+                subscriptionStatus.className = 'status-text active';
+                subscriptionEmail.value = '';
+                loadSubscriptions(email);
+
+            } catch (error) {
+                console.error('Subscription error:', error);
+                subscriptionStatus.textContent = 'Error creating subscription: ' + error.message;
+                subscriptionStatus.className = 'status-text error';
+            } finally {
+                subscribeButton.disabled = false;
+            }
+        });
+    }
+
+    // Add function to load subscriptions
+    async function loadSubscriptions(email) {
+        if (!email) return;
+
+        try {
+            const { data: subscriptions, error } = await supabaseClient
+                .from('subscriptions')
+                .select(`
+                    *,
+                    bags (*)
+                `)
+                .eq('user_email', email)
+                .eq('active', true);
+
+            if (error) throw error;
+
+            displaySubscriptions(subscriptions);
+        } catch (error) {
+            console.error('Error loading subscriptions:', error);
+        }
+    }
+
+    // Add function to display subscriptions
+    function displaySubscriptions(subscriptions) {
+        subscriptionsBody.innerHTML = '';
+        
+        if (!subscriptions || subscriptions.length === 0) {
+            subscriptionsBody.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align: center;">No active subscriptions</td>
+                </tr>
+            `;
+            return;
+        }
+
+        subscriptions.forEach(sub => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${sub.bags.bag_name || 'Unknown'}</td>
+                <td>${sub.user_email}</td>
+                <td>
+                    <span class="bag-status status-available">Active</span>
+                </td>
+                <td>
+                    <button 
+                        onclick="unsubscribe('${sub.id}')"
+                        class="unsubscribe-button">
+                        Unsubscribe
+                    </button>
+                </td>
+            `;
+            subscriptionsBody.appendChild(row);
+        });
+    }
+
+    // Add function to unsubscribe
+    async function unsubscribe(subscriptionId) {
+        try {
+            const { error } = await supabaseClient
+                .from('subscriptions')
+                .update({ active: false })
+                .eq('id', subscriptionId);
+
+            if (error) throw error;
+
+            // Reload subscriptions
+            loadSubscriptions(subscriptionEmail.value);
+        } catch (error) {
+            console.error('Error unsubscribing:', error);
+            alert('Error unsubscribing: ' + error.message);
+        }
     }
 }); 
