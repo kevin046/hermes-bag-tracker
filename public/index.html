@@ -5,47 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hermès Bag Tracker</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Hermès Bag Tracker</h1>
+        <h1 class="main-title">Hermès Bag Tracker</h1>
         
-        <form id="trackForm">
-            <div class="form-group">
-                <label for="bagSelect">Select Bag Model</label>
-                <select id="bagSelect" required>
-                    <option value="">Choose a bag...</option>
-                    <optgroup label="Picotin">
-                        <option value="picotin18">Picotin Lock 18</option>
-                        <option value="picotin22">Picotin Lock 22</option>
-                    </optgroup>
-                    <optgroup label="Herbag">
-                        <option value="herbagZip31">Herbag Zip 31</option>
-                        <option value="herbagZip39">Herbag Zip 39</option>
-                        <option value="herbagMessenger39">Herbag Messenger 39</option>
-                    </optgroup>
-                    <optgroup label="Evelyne">
-                        <option value="evelyne29">Evelyne III 29</option>
-                    </optgroup>
-                    <optgroup label="Lindy">
-                        <option value="lindyMini">Lindy II Mini</option>
-                        <option value="lindy26">Lindy 26</option>
-                    </optgroup>
-                    <optgroup label="Other">
-                        <option value="bolideMini">Bolide 1923 Mini</option>
-                        <option value="geta">Geta</option>
-                        <option value="jypsiereMini">Jypsiere Mini</option>
-                    </optgroup>
-                </select>
+        <div class="disclaimer-panel">
+            <h3>Terms & Conditions</h3>
+            <div class="disclaimer-content">
+                <p class="disclaimer-text">
+                    By using this tracker, you acknowledge and agree to the following:
+                </p>
+                <ul class="disclaimer-list">
+                    <li>This tool is for personal use only and is not affiliated with Hermès.</li>
+                    <li>Excessive use may result in your IP being blocked by Hermès website.</li>
+                    <li>We are not responsible for any restrictions or limitations imposed by Hermès.</li>
+                    <li>The availability and pricing information provided is not guaranteed.</li>
+                    <li>Use this service at your own risk.</li>
+                </ul>
+                <p class="disclaimer-note">
+                    This website is not liable for any misuse or consequences resulting from the use of this tracking service.
+                </p>
             </div>
-            <button type="submit" id="trackButton">Track Bag</button>
-        </form>
+        </div>
+
+        <div class="bag-selection-panel">
+            <h2 class="section-title">Select Bags to Track</h2>
+            <div class="bag-checkboxes">
+                <div class="bag-group">
+                    <h3>Picotin</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="picotin18">
+                        Picotin Lock 18
+                    </label>
+                    <label>
+                        <input type="checkbox" name="bag" value="picotin22">
+                        Picotin Lock 22
+                    </label>
+                </div>
+                <div class="bag-group">
+                    <h3>Herbag</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="herbagZip31">
+                        Herbag Zip 31
+                    </label>
+                    <label>
+                        <input type="checkbox" name="bag" value="herbagZip39">
+                        Herbag Zip 39
+                    </label>
+                </div>
+                <div class="bag-group">
+                    <h3>Evelyne</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="evelyne29">
+                        Evelyne III 29
+                    </label>
+                </div>
+                <div class="bag-group">
+                    <h3>Lindy</h3>
+                    <label>
+                        <input type="checkbox" name="bag" value="lindyMini">
+                        Lindy II Mini
+                    </label>
+                    <label>
+                        <input type="checkbox" name="bag" value="lindy26">
+                        Lindy 26
+                    </label>
+                </div>
+            </div>
+            <div class="control-buttons">
+                <button id="selectAllBtn" class="secondary-button">Select All</button>
+                <button id="clearAllBtn" class="secondary-button">Clear All</button>
+                <button id="startScrapingBtn" class="action-button">Track Selected Bags</button>
+            </div>
+            <div id="scrapingStatus" class="status-text"></div>
+        </div>
 
         <div id="error" class="error"></div>
         <div id="result" class="result"></div>
 
-        <div id="bagHistory" class="history">
-            <h2>Tracking History</h2>
+        <div class="history-section">
+            <div class="history-header">
+                <h2 class="section-title">Tracking History</h2>
+                <button id="clearHistoryBtn" class="danger-button">
+                    Clear All History
+                </button>
+            </div>
             <table id="historyTable">
                 <thead>
                     <tr>
@@ -55,12 +104,52 @@
                         <th>Color</th>
                         <th>Availability</th>
                         <th>Last Checked</th>
+                        <th>Product Link</th>
                     </tr>
                 </thead>
                 <tbody id="historyBody"></tbody>
             </table>
         </div>
+
+        <div class="subscription-panel">
+            <h2 class="section-title">Subscribe for Notifications</h2>
+            <div class="subscription-form">
+                <input type="email" id="subscriptionEmail" placeholder="Enter your email" required>
+                <button id="subscribeButton" class="action-button">Subscribe to Selected Bags</button>
+            </div>
+            <div id="subscriptionStatus" class="status-text"></div>
+            
+            <div class="subscriptions-list">
+                <h4>Your Active Subscriptions</h4>
+                <table id="subscriptionsTable">
+                    <thead>
+                        <tr>
+                            <th>Bag Model</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subscriptionsBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>Powered by <a href="https://www.summitpixels.com" target="_blank">SummitPixels</a></p>
+                <p class="copyright">© 2024 SummitPixels. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
+
+    <script src="hermesScraperBrowser.js"></script>
+    <script>
+        const SUPABASE_URL = 'https://xhcqhzkwyhkwumbcgqwl.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoY3Foemt3eWhrd3VtYmNncXdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwMDA1NDIsImV4cCI6MjA0ODU3NjU0Mn0.plJDiAESxjXQe60gDG3ihaBsimqmo3hg_nr7SURWg7M';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const hermesScraper = new HermesScraper();
+    </script>
     <script src="script.js"></script>
 </body>
 </html> 

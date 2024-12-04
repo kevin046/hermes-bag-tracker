@@ -5,15 +5,42 @@ package-lock.json
 # Environment variables
 .env
 .env.local
+.env.*.local
 
 # IDE files
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
 # Logs
+logs
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Operating System
 .DS_Store
-Thumbs.db 
+Thumbs.db
+.tmp
+.temp
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Cache directories
+.cache/
+.npm/
+
+# Coverage directory
+coverage/
+
+# Misc
+*.swp
+*.bak
+*.tmp
+*~ 
